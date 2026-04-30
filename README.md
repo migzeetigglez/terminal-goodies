@@ -2,10 +2,14 @@
 
 macOS terminal configuration and theme profiles.
 
+## Prerequisites
+
+Install [Homebrew](https://brew.sh) before running the installer.
+
 ## Install
 
 ```sh
-git clone https://github.com/michaelteague/terminal-goodies.git
+git clone https://github.com/migzeetigglez/terminal-goodies.git
 cd terminal-goodies/mac
 ./install.sh
 ```
