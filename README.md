@@ -16,22 +16,20 @@ cd terminal-goodies/mac
 
 The installer copies the macOS shell, Kitty, Starship, Neofetch, and theme-switching files into place.
 
-## Theme References
-
-Outlaw Star profile reference:
-
-![Outlaw Star terminal theme reference](docs/images/outlawstar-theme-reference-1.png)
-
-Alternate Outlaw Star reference:
-
-![Alternate Outlaw Star terminal theme reference](docs/images/outlawstar-theme-reference-2.png)
-
 ## Themes
 
 Available profiles:
 
-- `outlawstar`
 - `weyland`
+- `outlawstar`
+
+### `weyland`
+
+![Weyland-Yutani terminal profile](docs/images/outlawstar-theme-reference-1.png)
+
+### `outlawstar`
+
+![Outlaw Star terminal profile](docs/images/outlawstar-theme-reference-2.png)
 
 Switch themes with:
 
