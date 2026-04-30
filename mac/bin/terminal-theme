@@ -1,0 +1,104 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
+THEME_HOME="${TERMINAL_GOODIES_HOME:-$CONFIG_HOME/terminal-goodies}"
+PROFILES_DIR="$THEME_HOME/profiles"
+CURRENT_FILE="$THEME_HOME/current-theme"
+ENV_FILE="$THEME_HOME/theme.env"
+
+usage() {
+  cat <<'USAGE'
+Usage:
+  terminal-theme list
+  terminal-theme current
+  terminal-theme apply <profile>
+  terminal-theme <profile>
+
+Profiles:
+  outlawstar
+  weyland
+USAGE
+}
+
+copy_file() {
+  local src="$1"
+  local dest="$2"
+
+  if [[ ! -f "$src" ]]; then
+    echo "Missing profile file: $src" >&2
+    exit 1
+  fi
+
+  mkdir -p "$(dirname "$dest")"
+  cp -p "$src" "$dest"
+}
+
+list_profiles() {
+  if [[ ! -d "$PROFILES_DIR" ]]; then
+    echo "No profiles installed at $PROFILES_DIR" >&2
+    exit 1
+  fi
+
+  for profile in "$PROFILES_DIR"/*; do
+    [[ -d "$profile" ]] && basename "$profile"
+  done | sort
+}
+
+current_profile() {
+  if [[ -f "$CURRENT_FILE" ]]; then
+    cat "$CURRENT_FILE"
+  else
+    echo "none"
+  fi
+}
+
+apply_profile() {
+  local profile="$1"
+  local dir="$PROFILES_DIR/$profile"
+
+  if [[ ! -d "$dir" ]]; then
+    echo "Unknown terminal theme profile: $profile" >&2
+    echo "Available profiles:" >&2
+    list_profiles >&2
+    exit 1
+  fi
+
+  copy_file "$dir/kitty-theme.conf" "$CONFIG_HOME/kitty/theme.conf"
+  copy_file "$dir/starship.toml" "$CONFIG_HOME/starship.toml"
+  copy_file "$dir/neofetch.conf" "$CONFIG_HOME/neofetch/config.conf"
+  copy_file "$dir/theme.env" "$ENV_FILE"
+  printf '%s\n' "$profile" > "$CURRENT_FILE"
+
+  if [[ -n "${KITTY_WINDOW_ID:-}" || "${TERM:-}" == "xterm-kitty" ]]; then
+    if command -v kitty >/dev/null 2>&1; then
+      kitty @ set-colors --all --configured "$CONFIG_HOME/kitty/theme.conf" >/dev/null 2>&1 || true
+    fi
+  fi
+
+  echo "Applied terminal theme: $profile"
+  echo "Open a new terminal, or run: source ~/.zshrc"
+}
+
+case "${1:-}" in
+  "" | "-h" | "--help")
+    usage
+    ;;
+  "list")
+    list_profiles
+    ;;
+  "current")
+    current_profile
+    ;;
+  "apply")
+    if [[ -z "${2:-}" ]]; then
+      echo "Missing profile name." >&2
+      usage >&2
+      exit 1
+    fi
+    apply_profile "$2"
+    ;;
+  *)
+    apply_profile "$1"
+    ;;
+esac

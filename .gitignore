@@ -1,0 +1,12 @@
+.DS_Store
+.tmp-bin/
+.superpowers/
+
+# This public repo currently ships the macOS setup only.
+linux/
+.bashrc
+
+# Local/runtime files
+*.log
+*.pid
+server-stopped
