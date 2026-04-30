@@ -48,12 +48,10 @@ backup_copy "$SCRIPT_DIR/kitty/theme.conf" "$HOME/.config/kitty/theme.conf"
 
 backup_copy "$SCRIPT_DIR/neofetch/config.conf" "$HOME/.config/neofetch/config.conf"
 backup_copy "$SCRIPT_DIR/neofetch/outlawstar.png" "$HOME/.config/neofetch/outlawstar.png"
-backup_copy "$SCRIPT_DIR/neofetch/weyland-yutani.png" "$HOME/.config/neofetch/weyland-yutani.png"
 backup_copy "$SCRIPT_DIR/neofetch/weyland-yutani-login.png" "$HOME/.config/neofetch/weyland-yutani-login.png"
 backup_copy "$SCRIPT_DIR/neofetch/leo_ascii" "$HOME/.config/neofetch/leo_ascii"
 backup_copy "$SCRIPT_DIR/neofetch/ds_dot_ascii" "$HOME/.config/neofetch/ds_dot_ascii"
 backup_copy "$SCRIPT_DIR/neofetch/shrek_ascii" "$HOME/.config/neofetch/shrek_ascii"
-backup_copy "$SCRIPT_DIR/neofetch/dark_souls_ascii" "$HOME/.config/neofetch/dark_souls_ascii"
 
 if [[ "$(dscl . -read "/Users/$USER" UserShell 2>/dev/null || true)" != *"/bin/zsh"* ]]; then
   echo "Setting login shell to /bin/zsh. macOS may ask for your password."
